@@ -9,8 +9,9 @@ class GenerateABRequest(BaseModel):
     topic: str = Field(..., min_length=3, description="Topic for B2B thought leadership content")
     tone_guidance: Optional[str] = Field(None, description="Optional tone and style instructions")
     llm_provider: Optional[str] = Field(default="simulation", description="Selected LLM provider (simulation, openai, anthropic, gemini, ollama)")
-    llm_model: Optional[str] = Field(default=None, description="Model identifier")
+    persona_id: Optional[str] = Field(default=None, description="Selected Ghostwriter Persona ID")
     temperature: Optional[float] = Field(default=0.7, ge=0.0, le=1.5, description="Sampling temperature")
+
 
 
 class GenerateABResponse(BaseModel):

@@ -18,11 +18,17 @@ async def generate_candidate_ab(
     Invokes the Adversarial Multi-Agent Debate Graph twice concurrently
     to produce Variant A and Variant B.
     """
+    from app.services.persona_engine import build_persona_guidance
+
     topic = payload.topic
     tone_guidance = payload.tone_guidance or "High conviction B2B thought leadership"
+    if payload.persona_id:
+        tone_guidance = build_persona_guidance(payload.persona_id, tone_guidance)
+
     provider = payload.llm_provider or "simulation"
     model = payload.llm_model
     temperature = payload.temperature if payload.temperature is not None else 0.7
+
 
     state_a: PostState = {
         "topic": topic,

@@ -26,12 +26,13 @@ export default function RLHFArenaPage() {
     toneGuidance?: string,
     llmProvider?: string,
     llmModel?: string,
-    temperature?: number
+    temperature?: number,
+    personaId?: string
   ) => {
     setIsLoading(true);
     setVoteSuccessMessage(null);
     try {
-      const data = await generateAB(topic, toneGuidance, llmProvider, llmModel, temperature);
+      const data = await generateAB(topic, toneGuidance, llmProvider, llmModel, temperature, personaId);
       setGenerationData(data);
     } catch (err) {
       console.error("Generation error:", err);

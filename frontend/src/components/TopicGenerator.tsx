@@ -20,10 +20,23 @@ import {
 } from "lucide-react";
 
 interface TopicGeneratorProps {
-  onGenerate: (topic: string, toneGuidance?: string, llmProvider?: string, llmModel?: string, temperature?: number) => void;
+  onGenerate: (
+    topic: string, 
+    toneGuidance?: string, 
+    llmProvider?: string, 
+    llmModel?: string, 
+    temperature?: number,
+    personaId?: string
+  ) => void;
   isLoading: boolean;
 }
 
+const PERSONA_PRESETS = [
+  { id: "contrarian_vc", name: "Contrarian VC", role: "GP @ Frontier Capital", badge: "Capital & Moats", desc: "Focuses on burn rates, unit economics, asymmetric leverage, and consensus traps." },
+  { id: "systems_architect", name: "Systems Architect", role: "Principal Staff Engineer", badge: "Deterministic Code", desc: "Zero marketing fluff, deterministic execution, and state drift prevention." },
+  { id: "hypergrowth_cmo", name: "Growth CMO", role: "B2B Marketing Leader", badge: "Pipeline & Dwell Time", desc: "Distribution flywheels, buyer intent psychology, and dark social loops." },
+  { id: "bootstrapped_builder", name: "Bootstrapped Builder", role: "Solo Technical Founder", badge: "Radical Transparency", desc: "Real revenue metrics, customer-funded velocity, and zero VC buzzwords." },
+];
 
 interface TopicCategory {
   name: string;
@@ -92,9 +105,11 @@ const LLM_PROVIDERS = [
   { id: "ollama", name: "Ollama (llama3.2)", desc: "100% private local inference on localhost:11434", badge: "Self-Hosted" },
 ];
 
+
 export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
   const [topic, setTopic] = useState("");
   const [selectedTone, setSelectedTone] = useState("contrarian");
+  const [selectedPersona, setSelectedPersona] = useState("contrarian_vc");
   const [selectedProvider, setSelectedProvider] = useState("simulation");
   const [temperature, setTemperature] = useState(0.7);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -104,12 +119,13 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
     e.preventDefault();
     if (!topic.trim() || isLoading) return;
     const toneDesc = TONE_PRESETS.find((t) => t.id === selectedTone)?.desc;
-    onGenerate(topic.trim(), toneDesc, selectedProvider, undefined, temperature);
+    onGenerate(topic.trim(), toneDesc, selectedProvider, undefined, temperature, selectedPersona);
   };
 
   const handleSelectExample = (example: string) => {
     setTopic(example);
   };
+
 
 
   return (
@@ -327,12 +343,54 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
             </div>
           </div>
 
+          {/* Persona Selector */}
+          <div>
+            <div className="flex items-center justify-between mb-2.5">
+              <label className="block text-xs font-mono uppercase text-slate-400">
+                4. Executive Ghostwriter Persona
+              </label>
+              <span className="text-[11px] font-mono text-indigo-400">
+                Custom Brand Voice Guardrails
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+              {PERSONA_PRESETS.map((p) => {
+                const isSelected = selectedPersona === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setSelectedPersona(p.id)}
+                    disabled={isLoading}
+                    className={`flex flex-col text-left p-3.5 rounded-xl border transition-all cursor-pointer ${
+                      isSelected
+                        ? "border-purple-500 bg-purple-950/30 shadow-glow"
+                        : "border-white/[0.08] bg-slate-950/40 hover:border-white/20 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <span className="text-xs font-bold text-white truncate">{p.name}</span>
+                    </div>
+                    <span className="text-[10px] font-mono text-purple-300 mb-1">{p.role}</span>
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-purple-500/30 bg-purple-950/40 text-purple-300 w-fit mb-2">
+                      {p.badge}
+                    </span>
+                    <p className="text-[11px] text-slate-400 leading-tight">
+                      {p.desc}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Quick Prompts with Category Tabs */}
           <div className="pt-4 border-t border-white/[0.06] space-y-3">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <span className="text-xs font-mono uppercase text-slate-400">
-                3. Or Pick From Curated High-Conviction Prompts:
+                5. Or Pick From Curated High-Conviction Prompts:
               </span>
+
               <div className="flex items-center gap-1">
                 {CATEGORIZED_TOPICS.map((cat, idx) => (
                   <button

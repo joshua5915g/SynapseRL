@@ -8,13 +8,28 @@ export interface CandidatePair {
   created_at: string;
 }
 
+export interface GhostwriterPersona {
+  id: string;
+  name: string;
+  role_title: string;
+  bio: string;
+  tone_characteristics: string[];
+  preferred_keywords: string[];
+  forbidden_words: string[];
+  hook_archetype: string;
+  signature_cta: string;
+  is_custom?: boolean;
+}
+
 export interface GenerateABRequest {
   topic: string;
   tone_guidance?: string;
   llm_provider?: string;
   llm_model?: string;
+  persona_id?: string;
   temperature?: number;
 }
+
 
 export interface GenerateABResponse {
   status: string;

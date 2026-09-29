@@ -34,12 +34,23 @@ export async function fetchLLMProviders(): Promise<any[]> {
   }
 }
 
+export async function fetchPersonas(): Promise<any[]> {
+  try {
+    const res = await fetch(`${API_V1_BASE}/personas`);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
 export async function generateAB(
   topic: string,
   toneGuidance?: string,
   llmProvider?: string,
   llmModel?: string,
-  temperature?: number
+  temperature?: number,
+  personaId?: string
 ): Promise<GenerateABResponse> {
   try {
     const res = await fetch(`${API_V1_BASE}/generate/ab`, {
@@ -52,11 +63,13 @@ export async function generateAB(
         tone_guidance: toneGuidance || "High conviction thought leadership",
         llm_provider: llmProvider || "simulation",
         llm_model: llmModel,
+        persona_id: personaId,
         temperature: temperature ?? 0.7,
       }),
     });
 
     if (!res.ok) {
+
       // Fallback try legacy route
       const fallbackRes = await fetch(`${BACKEND_BASE}/api/rlhf/generate-ab`, {
         method: "POST",
