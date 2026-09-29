@@ -6,6 +6,7 @@ from app.api.routes.telemetry import router as telemetry_router
 from app.api.routes.llm import router as llm_router
 from app.api.routes.hooks import router as hooks_router
 from app.api.routes.personas import router as personas_router
+from app.api.routes.linter import router as linter_router
 
 api_router = APIRouter()
 api_router.include_router(generate_router)
@@ -15,6 +16,8 @@ api_router.include_router(telemetry_router)
 api_router.include_router(llm_router)
 api_router.include_router(hooks_router)
 api_router.include_router(personas_router)
+api_router.include_router(linter_router)
+
 
 
 

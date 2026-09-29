@@ -19,11 +19,14 @@ import {
   Flame,
   Zap,
   TrendingUp,
-  FileText
+  FileText,
+  ShieldAlert,
+  Workflow
 } from "lucide-react";
 import { GenerateABResponse } from "@/lib/types";
 import { HookOptimizerModal } from "@/components/arena/HookOptimizerModal";
 import { DebateInspectorModal } from "@/components/arena/DebateInspectorModal";
+import { CringeLinterModal } from "@/components/arena/CringeLinterModal";
 
 interface ArenaProps {
   generationData: GenerateABResponse;
@@ -38,8 +41,10 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
   const [viewMode, setViewMode] = useState<"technical" | "linkedin">("technical");
   const [hookModalTarget, setHookModalTarget] = useState<"A" | "B" | null>(null);
   const [debateModalTarget, setDebateModalTarget] = useState<"A" | "B" | null>(null);
+  const [linterModalTarget, setLinterModalTarget] = useState<"A" | "B" | null>(null);
   const [variantAText, setVariantAText] = useState<string>(generationData.variant_a);
   const [variantBText, setVariantBText] = useState<string>(generationData.variant_b);
+
 
 
   useEffect(() => {
@@ -58,6 +63,15 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
       setVariantBText(lines.join("\n"));
     }
   };
+
+  const handleApplyDeFluff = (target: "A" | "B", cleanText: string) => {
+    if (target === "A") {
+      setVariantAText(cleanText);
+    } else {
+      setVariantBText(cleanText);
+    }
+  };
+
 
 
   useEffect(() => {
@@ -219,7 +233,17 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setLinterModalTarget("A")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Scan for AI Buzzwords & Corporate Clichés"
+                >
+                  <ShieldAlert className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Cringe Linter</span>
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleCopy(variantAText, "A")}
+
 
                   className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
@@ -332,6 +356,15 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setLinterModalTarget("B")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Scan for AI Buzzwords & Corporate Clichés"
+                >
+                  <ShieldAlert className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Cringe Linter</span>
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleCopy(variantBText, "B")}
                   className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
@@ -424,8 +457,20 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
           finalDraft={debateModalTarget === "A" ? variantAText : variantBText}
         />
       )}
+
+      {/* Cringe Linter Modal */}
+      {linterModalTarget && (
+        <CringeLinterModal
+          isOpen={linterModalTarget !== null}
+          onClose={() => setLinterModalTarget(null)}
+          variantLabel={`Candidate ${linterModalTarget}`}
+          currentText={linterModalTarget === "A" ? variantAText : variantBText}
+          onApplyDeFluff={(clean) => handleApplyDeFluff(linterModalTarget, clean)}
+        />
+      )}
     </div>
   );
 }
+
 
 
