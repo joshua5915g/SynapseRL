@@ -1,7 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Award, Copy, Check, Sparkles, Clock, RefreshCw, Layers, ArrowLeft } from "lucide-react";
+import { 
+  Award, 
+  Copy, 
+  Check, 
+  Sparkles, 
+  Clock, 
+  RefreshCw, 
+  Layers, 
+  ArrowLeft, 
+  ThumbsUp, 
+  MessageSquare, 
+  Repeat2, 
+  Send, 
+  Eye, 
+  SlidersHorizontal,
+  Flame,
+  Zap,
+  TrendingUp,
+  FileText
+} from "lucide-react";
 import { GenerateABResponse } from "@/lib/types";
 
 interface ArenaProps {
@@ -12,11 +31,37 @@ interface ArenaProps {
 
 export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
   const [startTime, setStartTime] = useState<number>(Date.now());
+  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
   const [copiedVariant, setCopiedVariant] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"technical" | "linkedin">("technical");
 
   useEffect(() => {
-    setStartTime(Date.now());
+    const now = Date.now();
+    setStartTime(now);
+    setElapsedSeconds(0);
+
+    const timer = setInterval(() => {
+      setElapsedSeconds(Math.floor((Date.now() - now) / 1000));
+    }, 500);
+
+    return () => clearInterval(timer);
   }, [generationData]);
+
+  // Keyboard navigation for voting
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      if (e.key === "1" || e.key === "ArrowLeft") {
+        handleChoose("candidate_a");
+      } else if (e.key === "2" || e.key === "ArrowRight") {
+        handleChoose("candidate_b");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [startTime]);
 
   const handleCopy = (text: string, variant: string) => {
     navigator.clipboard.writeText(text);
@@ -31,38 +76,66 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
 
   const wordCountA = generationData.variant_a.split(/\s+/).filter(Boolean).length;
   const wordCountB = generationData.variant_b.split(/\s+/).filter(Boolean).length;
+  const readTimeA = Math.max(1, Math.round((wordCountA / 200) * 60));
+  const readTimeB = Math.max(1, Math.round((wordCountB / 200) * 60));
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-6">
-      {/* Arena Top Navigation Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-900/60 px-6 py-4 backdrop-blur-xl">
+    <div className="w-full max-w-7xl mx-auto space-y-6 animate-in fade-in duration-300">
+      {/* Arena Top Navigation & Telemetry Bar */}
+      <div className="glass-panel px-6 py-4 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onReset}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 bg-slate-950/60 text-xs font-mono text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 bg-slate-950/60 text-xs font-mono text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>New Topic</span>
+            <span>New Prompt</span>
           </button>
           <div>
-            <span className="text-xs font-mono text-indigo-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block">
               Active Evaluation Topic
             </span>
-            <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
+            <h2 className="text-base sm:text-lg font-bold text-white tracking-tight line-clamp-1">
               "{generationData.topic}"
             </h2>
           </div>
         </div>
 
-        <div className="flex items-center gap-4 text-xs font-mono text-slate-400">
-          <div className="flex items-center gap-1.5 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-white/5">
-            <Layers className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Passes: A({generationData.iterations_a}) vs B({generationData.iterations_b})</span>
+        {/* View Mode Switch & Dwell Timer */}
+        <div className="flex flex-wrap items-center gap-3 text-xs font-mono">
+          {/* View Mode Toggle */}
+          <div className="flex items-center p-1 rounded-xl bg-slate-950/80 border border-white/10">
+            <button
+              type="button"
+              onClick={() => setViewMode("technical")}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                viewMode === "technical"
+                  ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>Technical Review</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("linkedin")}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-lg transition-all cursor-pointer ${
+                viewMode === "linkedin"
+                  ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 shadow-sm"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>LinkedIn Feed Mockup</span>
+            </button>
           </div>
-          <div className="flex items-center gap-1.5 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-white/5">
-            <Clock className="w-3.5 h-3.5 text-cyan-400" />
-            <span>RLHF Live Arena</span>
+
+          {/* Dwell Timer */}
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/80 border border-white/10 text-slate-300">
+            <Clock className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span>Dwell: <strong className="text-white font-mono">{elapsedSeconds}s</strong></span>
           </div>
         </div>
       </div>
@@ -70,29 +143,35 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
       {/* Side-by-Side Arena Battle Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* VARIANT A CARD */}
-        <div className="flex flex-col justify-between rounded-2xl border border-indigo-500/20 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/50 hover:shadow-glow relative overflow-hidden group">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+        <div className="flex flex-col justify-between rounded-2xl border border-indigo-500/30 bg-[#0c1222]/80 p-6 sm:p-7 backdrop-blur-xl transition-all duration-300 hover:border-indigo-500/60 hover:shadow-glow relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500"></div>
 
           <div>
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-300 font-mono font-bold text-sm border border-indigo-500/30">
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08]">
+              <div className="flex items-center gap-2.5">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-300 font-mono font-bold text-sm border border-indigo-500/40 shadow-sm">
                   A
                 </span>
                 <div>
-                  <h3 className="text-base font-bold text-white">Variant A</h3>
-                  <span className="text-xs font-mono text-cyan-400">Contrarian & Provocative Hook</span>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-bold text-white">Candidate A</h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                      Contrarian Hook
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400 font-mono">Tension-Driven • High Virality</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-slate-500">{wordCountA} words</span>
+                <span className="text-xs font-mono text-slate-400">{wordCountA} words • {readTimeA}s</span>
                 <button
                   type="button"
                   onClick={() => handleCopy(generationData.variant_a, "A")}
-                  className="p-1.5 rounded-lg border border-white/5 bg-slate-950/40 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
+                  className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
+                  aria-label="Copy Candidate A content"
                 >
                   {copiedVariant === "A" ? (
                     <Check className="w-4 h-4 text-emerald-400" />
@@ -103,47 +182,89 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
               </div>
             </div>
 
-            {/* Content Body */}
-            <div className="rounded-xl border border-white/5 bg-slate-950/70 p-5 sm:p-6 text-sm sm:text-base text-slate-200 leading-relaxed font-sans whitespace-pre-line mb-6 select-text min-h-[280px]">
-              {generationData.variant_a}
-            </div>
+            {/* Content Body Rendering */}
+            {viewMode === "technical" ? (
+              <div className="rounded-xl border border-white/5 bg-slate-950/60 p-5 text-sm sm:text-base text-slate-200 leading-relaxed font-sans whitespace-pre-line mb-6 select-text min-h-[300px]">
+                {generationData.variant_a}
+              </div>
+            ) : (
+              /* LinkedIn Mockup Card */
+              <div className="rounded-xl border border-slate-800 bg-[#0d1527] p-5 mb-6 text-slate-200 shadow-xl space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center font-bold text-white text-xs">
+                    SR
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-white">Alex Mercer • 1st</div>
+                    <div className="text-[11px] text-slate-400">Principal Distributed Systems Architect @ SynapseRL</div>
+                    <div className="text-[10px] text-slate-500">Just now • 🌐</div>
+                  </div>
+                </div>
+
+                <div className="text-sm text-slate-100 whitespace-pre-line leading-relaxed border-t border-slate-800/80 pt-3">
+                  {generationData.variant_a}
+                </div>
+
+                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                  <span className="flex items-center gap-1.5 hover:text-indigo-400 transition-colors cursor-pointer">
+                    <ThumbsUp className="w-4 h-4" /> Like
+                  </span>
+                  <span className="flex items-center gap-1.5 hover:text-indigo-400 transition-colors cursor-pointer">
+                    <MessageSquare className="w-4 h-4" /> Comment
+                  </span>
+                  <span className="flex items-center gap-1.5 hover:text-indigo-400 transition-colors cursor-pointer">
+                    <Repeat2 className="w-4 h-4" /> Repost
+                  </span>
+                  <span className="flex items-center gap-1.5 hover:text-indigo-400 transition-colors cursor-pointer">
+                    <Send className="w-4 h-4" /> Send
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Winner CTA */}
+          {/* Winner Vote CTA */}
           <button
             type="button"
             onClick={() => handleChoose("candidate_a")}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 py-3.5 font-semibold text-white shadow-lg shadow-indigo-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 py-3.5 font-semibold text-sm sm:text-base text-white shadow-lg shadow-indigo-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
           >
-            <Award className="w-4 h-4 text-yellow-300" />
-            <span>Select Variant A as Winner</span>
+            <Award className="w-4 h-4 text-cyan-300" />
+            <span>Select Candidate A as Winner</span>
+            <span className="text-xs font-mono opacity-70 bg-black/20 px-2 py-0.5 rounded">Key: 1 or ←</span>
           </button>
         </div>
 
         {/* VARIANT B CARD */}
-        <div className="flex flex-col justify-between rounded-2xl border border-cyan-500/20 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:border-cyan-500/50 hover:shadow-glow-cyan relative overflow-hidden group">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500"></div>
+        <div className="flex flex-col justify-between rounded-2xl border border-cyan-500/30 bg-[#0c1222]/80 p-6 sm:p-7 backdrop-blur-xl transition-all duration-300 hover:border-cyan-500/60 hover:shadow-glow-cyan relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-500"></div>
 
           <div>
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 font-mono font-bold text-sm border border-cyan-500/30">
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-white/[0.08]">
+              <div className="flex items-center gap-2.5">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-300 font-mono font-bold text-sm border border-cyan-500/40 shadow-sm">
                   B
                 </span>
                 <div>
-                  <h3 className="text-base font-bold text-white">Variant B</h3>
-                  <span className="text-xs font-mono text-emerald-400">Architectural Framework Blueprint</span>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-bold text-white">Candidate B</h3>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                      Engineering Blueprint
+                    </span>
+                  </div>
+                  <span className="text-xs text-slate-400 font-mono">System Centric • High Retention</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-slate-500">{wordCountB} words</span>
+                <span className="text-xs font-mono text-slate-400">{wordCountB} words • {readTimeB}s</span>
                 <button
                   type="button"
                   onClick={() => handleCopy(generationData.variant_b, "B")}
-                  className="p-1.5 rounded-lg border border-white/5 bg-slate-950/40 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
+                  className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
+                  aria-label="Copy Candidate B content"
                 >
                   {copiedVariant === "B" ? (
                     <Check className="w-4 h-4 text-emerald-400" />
@@ -154,20 +275,56 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
               </div>
             </div>
 
-            {/* Content Body */}
-            <div className="rounded-xl border border-white/5 bg-slate-950/70 p-5 sm:p-6 text-sm sm:text-base text-slate-200 leading-relaxed font-sans whitespace-pre-line mb-6 select-text min-h-[280px]">
-              {generationData.variant_b}
-            </div>
+            {/* Content Body Rendering */}
+            {viewMode === "technical" ? (
+              <div className="rounded-xl border border-white/5 bg-slate-950/60 p-5 text-sm sm:text-base text-slate-200 leading-relaxed font-sans whitespace-pre-line mb-6 select-text min-h-[300px]">
+                {generationData.variant_b}
+              </div>
+            ) : (
+              /* LinkedIn Mockup Card */
+              <div className="rounded-xl border border-slate-800 bg-[#0d1527] p-5 mb-6 text-slate-200 shadow-xl space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-600 to-emerald-500 flex items-center justify-center font-bold text-white text-xs">
+                    SR
+                  </div>
+                  <div>
+                    <div className="text-xs font-semibold text-white">Alex Mercer • 1st</div>
+                    <div className="text-[11px] text-slate-400">Principal Distributed Systems Architect @ SynapseRL</div>
+                    <div className="text-[10px] text-slate-500">Just now • 🌐</div>
+                  </div>
+                </div>
+
+                <div className="text-sm text-slate-100 whitespace-pre-line leading-relaxed border-t border-slate-800/80 pt-3">
+                  {generationData.variant_b}
+                </div>
+
+                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                  <span className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors cursor-pointer">
+                    <ThumbsUp className="w-4 h-4" /> Like
+                  </span>
+                  <span className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors cursor-pointer">
+                    <MessageSquare className="w-4 h-4" /> Comment
+                  </span>
+                  <span className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors cursor-pointer">
+                    <Repeat2 className="w-4 h-4" /> Repost
+                  </span>
+                  <span className="flex items-center gap-1.5 hover:text-cyan-400 transition-colors cursor-pointer">
+                    <Send className="w-4 h-4" /> Send
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Winner CTA */}
+          {/* Winner Vote CTA */}
           <button
             type="button"
             onClick={() => handleChoose("candidate_b")}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 py-3.5 font-semibold text-white shadow-lg shadow-cyan-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 py-3.5 font-semibold text-sm sm:text-base text-white shadow-lg shadow-cyan-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
           >
             <Award className="w-4 h-4 text-yellow-300" />
-            <span>Select Variant B as Winner</span>
+            <span>Select Candidate B as Winner</span>
+            <span className="text-xs font-mono opacity-70 bg-black/20 px-2 py-0.5 rounded">Key: 2 or →</span>
           </button>
         </div>
       </div>

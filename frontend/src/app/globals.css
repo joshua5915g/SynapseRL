@@ -4,24 +4,47 @@
 
 @layer base {
   :root {
-    --background: #090d16;
+    --background: #060911;
     --foreground: #f8fafc;
+    --color-primary: #6366f1;
+    --color-primary-hover: #4f46e5;
+    --color-accent: #06b6d4;
+    --color-card: #0c1222;
+    --color-card-border: rgba(255, 255, 255, 0.08);
+    --color-card-border-hover: rgba(99, 102, 241, 0.35);
+    --color-muted: #141c30;
+    --color-muted-foreground: #94a3b8;
   }
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* Custom Cyber Glassmorphism & Scrollbars */
+/* Subtle Ambient Background Grid & Radial Lighting */
+.bg-grid-cyber {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+.bg-radial-ambient {
+  background: 
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 100% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 0% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+}
+
+/* Glassmorphism Panels */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(12, 18, 34, 0.72);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-card-border);
 }
 
 .glass-panel-hover {
@@ -29,17 +52,25 @@ body {
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 0 30px -8px rgba(99, 102, 241, 0.25);
+  border-color: var(--color-card-border-hover);
+  box-shadow: 0 0 35px -8px rgba(99, 102, 241, 0.25);
+  transform: translateY(-1px);
 }
 
+/* Keyboard Accessible Focus */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #6366f1, 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+/* Micro-scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #060911;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -49,4 +80,10 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
+}
+
+/* Selection style */
+::selection {
+  background: rgba(99, 102, 241, 0.35);
+  color: #ffffff;
 }

@@ -29,14 +29,25 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       boxShadow: {
         glow: "0 0 25px -5px rgba(99, 102, 241, 0.4)",
         "glow-cyan": "0 0 25px -5px rgba(6, 182, 212, 0.4)",
         "glow-emerald": "0 0 25px -5px rgba(16, 185, 129, 0.4)",
-      }
+        "glow-subtle": "0 0 40px -10px rgba(99, 102, 241, 0.15)",
+      },
+      animation: {
+        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "radar-sweep": "radar 8s linear infinite",
+      },
+      keyframes: {
+        radar: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+      },
     },
   },
   plugins: [],
