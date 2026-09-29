@@ -26,6 +26,7 @@ venv/
 ENV/
 *.sqlite3
 *.db
+*.jsonl
 
 # Node / Next.js
 frontend/node_modules/

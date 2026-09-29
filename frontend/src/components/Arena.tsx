@@ -21,12 +21,14 @@ import {
   TrendingUp,
   FileText,
   ShieldAlert,
-  Workflow
+  Workflow,
+  Share2
 } from "lucide-react";
 import { GenerateABResponse } from "@/lib/types";
 import { HookOptimizerModal } from "@/components/arena/HookOptimizerModal";
 import { DebateInspectorModal } from "@/components/arena/DebateInspectorModal";
 import { CringeLinterModal } from "@/components/arena/CringeLinterModal";
+import { MultiPlatformExportModal } from "@/components/arena/MultiPlatformExportModal";
 
 interface ArenaProps {
   generationData: GenerateABResponse;
@@ -42,6 +44,7 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
   const [hookModalTarget, setHookModalTarget] = useState<"A" | "B" | null>(null);
   const [debateModalTarget, setDebateModalTarget] = useState<"A" | "B" | null>(null);
   const [linterModalTarget, setLinterModalTarget] = useState<"A" | "B" | null>(null);
+  const [multiPlatformModalTarget, setMultiPlatformModalTarget] = useState<"A" | "B" | null>(null);
   const [variantAText, setVariantAText] = useState<string>(generationData.variant_a);
   const [variantBText, setVariantBText] = useState<string>(generationData.variant_b);
 
@@ -242,6 +245,15 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setMultiPlatformModalTarget("A")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Export to X Thread & Substack Markdown"
+                >
+                  <Share2 className="w-3.5 h-3.5 text-sky-400" />
+                  <span>X / Substack</span>
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleCopy(variantAText, "A")}
 
 
@@ -365,6 +377,15 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setMultiPlatformModalTarget("B")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Export to X Thread & Substack Markdown"
+                >
+                  <Share2 className="w-3.5 h-3.5 text-sky-400" />
+                  <span>X / Substack</span>
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleCopy(variantBText, "B")}
                   className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
@@ -466,6 +487,17 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
           variantLabel={`Candidate ${linterModalTarget}`}
           currentText={linterModalTarget === "A" ? variantAText : variantBText}
           onApplyDeFluff={(clean) => handleApplyDeFluff(linterModalTarget, clean)}
+        />
+      )}
+
+      {/* Multi-Platform Cross-Publishing Modal */}
+      {multiPlatformModalTarget && (
+        <MultiPlatformExportModal
+          isOpen={multiPlatformModalTarget !== null}
+          onClose={() => setMultiPlatformModalTarget(null)}
+          variantLabel={`Candidate ${multiPlatformModalTarget}`}
+          topic={generationData.topic}
+          content={multiPlatformModalTarget === "A" ? variantAText : variantBText}
         />
       )}
     </div>

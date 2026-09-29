@@ -287,5 +287,31 @@ export async function simulateAudienceEngagement(): Promise<any> {
   }
 }
 
+export async function formatMultiPlatform(topic: string, content: string): Promise<any> {
+  try {
+    const res = await fetch(`${API_V1_BASE}/format/multi-platform`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ topic, content }),
+    });
+    if (!res.ok) throw new Error("Format failed");
+    return (await res.json()).data;
+  } catch {
+    // Local simulation fallback
+    const paragraphs = content.split("\n\n").filter(Boolean);
+    const tweets = paragraphs.map((p, i) => `${i + 1}/${paragraphs.length + 1}\n\n${p}`);
+    tweets.push(`${paragraphs.length + 1}/${paragraphs.length + 1}\n\nBookmark this thread if you found it useful! 🔖`);
+    return {
+      linkedin: content,
+      x_thread: tweets,
+      x_tweet_count: tweets.length,
+      substack_markdown: `# ${topic}\n\n${content}\n\n---\n*Written via SynapseRL Cross-Platform Engine*`,
+      word_count: content.split(/\s+/).length,
+      reading_time_minutes: 1.5,
+    };
+  }
+}
+
+
 
 
