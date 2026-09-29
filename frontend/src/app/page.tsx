@@ -21,11 +21,17 @@ export default function RLHFArenaPage() {
   const [isSubmittingVote, setIsSubmittingVote] = useState(false);
   const [voteSuccessMessage, setVoteSuccessMessage] = useState<string | null>(null);
 
-  const handleGenerate = async (topic: string, toneGuidance?: string) => {
+  const handleGenerate = async (
+    topic: string,
+    toneGuidance?: string,
+    llmProvider?: string,
+    llmModel?: string,
+    temperature?: number
+  ) => {
     setIsLoading(true);
     setVoteSuccessMessage(null);
     try {
-      const data = await generateAB(topic, toneGuidance);
+      const data = await generateAB(topic, toneGuidance, llmProvider, llmModel, temperature);
       setGenerationData(data);
     } catch (err) {
       console.error("Generation error:", err);

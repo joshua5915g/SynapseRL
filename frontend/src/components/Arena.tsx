@@ -93,14 +93,22 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
             <span>New Prompt</span>
           </button>
           <div>
-            <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block">
-              Active Evaluation Topic
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block">
+                Active Evaluation Topic
+              </span>
+              {generationData.provider_used && (
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-cyan-500/30 bg-cyan-950/40 text-cyan-300 uppercase">
+                  {generationData.provider_used}
+                </span>
+              )}
+            </div>
             <h2 className="text-base sm:text-lg font-bold text-white tracking-tight line-clamp-1">
               "{generationData.topic}"
             </h2>
           </div>
         </div>
+
 
         {/* View Mode Switch & Dwell Timer */}
         <div className="flex flex-wrap items-center gap-3 text-xs font-mono">

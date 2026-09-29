@@ -20,9 +20,10 @@ import {
 } from "lucide-react";
 
 interface TopicGeneratorProps {
-  onGenerate: (topic: string, toneGuidance?: string) => void;
+  onGenerate: (topic: string, toneGuidance?: string, llmProvider?: string, llmModel?: string, temperature?: number) => void;
   isLoading: boolean;
 }
+
 
 interface TopicCategory {
   name: string;
@@ -83,9 +84,19 @@ const TONE_PRESETS = [
   },
 ];
 
+const LLM_PROVIDERS = [
+  { id: "simulation", name: "Simulation Engine", desc: "Zero API keys needed, deterministic high-conviction debate", badge: "Instant & Free" },
+  { id: "openai", name: "OpenAI GPT-4o", desc: "GPT-4o flagship model with deep systems knowledge", badge: "Live API" },
+  { id: "anthropic", name: "Claude 3.5 Sonnet", desc: "Nuanced executive voice and anti-cringe prose", badge: "Live API" },
+  { id: "gemini", name: "Gemini 1.5 Flash", desc: "Ultra-fast inference with sharp analytical clarity", badge: "Live API" },
+  { id: "ollama", name: "Ollama (llama3.2)", desc: "100% private local inference on localhost:11434", badge: "Self-Hosted" },
+];
+
 export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
   const [topic, setTopic] = useState("");
   const [selectedTone, setSelectedTone] = useState("contrarian");
+  const [selectedProvider, setSelectedProvider] = useState("simulation");
+  const [temperature, setTemperature] = useState(0.7);
   const [activeCategory, setActiveCategory] = useState(0);
   const [showGraphDetails, setShowGraphDetails] = useState(false);
 
@@ -93,12 +104,13 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
     e.preventDefault();
     if (!topic.trim() || isLoading) return;
     const toneDesc = TONE_PRESETS.find((t) => t.id === selectedTone)?.desc;
-    onGenerate(topic.trim(), toneDesc);
+    onGenerate(topic.trim(), toneDesc, selectedProvider, undefined, temperature);
   };
 
   const handleSelectExample = (example: string) => {
     setTopic(example);
   };
+
 
   return (
     <div className="w-full max-w-4xl mx-auto text-center space-y-8">
@@ -222,10 +234,64 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
             </div>
           </div>
 
+          {/* LLM Inference Engine Selector */}
+          <div>
+            <div className="flex items-center justify-between mb-2.5">
+              <label className="block text-xs font-mono uppercase text-slate-400">
+                2. Live LLM Provider Engine
+              </label>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-mono text-slate-400">Temperature:</span>
+                <span className="text-[11px] font-mono text-cyan-400 font-bold">{temperature.toFixed(2)}</span>
+                <input
+                  type="range"
+                  min="0.2"
+                  max="1.2"
+                  step="0.05"
+                  value={temperature}
+                  onChange={(e) => setTemperature(parseFloat(e.target.value))}
+                  disabled={isLoading}
+                  className="w-20 sm:w-24 accent-indigo-500 cursor-pointer"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+              {LLM_PROVIDERS.map((p) => {
+                const isSelected = selectedProvider === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setSelectedProvider(p.id)}
+                    disabled={isLoading}
+                    className={`flex flex-col text-left p-3 rounded-xl border transition-all cursor-pointer ${
+                      isSelected
+                        ? "border-cyan-500 bg-cyan-950/30 shadow-glow"
+                        : "border-white/[0.08] bg-slate-950/40 hover:border-white/20 hover:bg-slate-900/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <span className="text-xs font-semibold text-white truncate">{p.name}</span>
+                    </div>
+                    <span className={`text-[9px] font-mono px-1 py-0.5 rounded border w-fit mb-1.5 ${
+                      isSelected ? "border-cyan-400/40 bg-cyan-500/10 text-cyan-300" : "border-slate-800 text-slate-500"
+                    }`}>
+                      {p.badge}
+                    </span>
+                    <p className="text-[10px] text-slate-400 leading-tight line-clamp-2">
+                      {p.desc}
+                    </p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Tone Selector */}
           <div>
             <label className="block text-xs font-mono uppercase text-slate-400 mb-2.5">
-              2. Select Agent Tone Strategy
+              3. Select Agent Tone Strategy
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {TONE_PRESETS.map((t) => {

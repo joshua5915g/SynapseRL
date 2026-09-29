@@ -20,6 +20,9 @@ async def generate_candidate_ab(
     """
     topic = payload.topic
     tone_guidance = payload.tone_guidance or "High conviction B2B thought leadership"
+    provider = payload.llm_provider or "simulation"
+    model = payload.llm_model
+    temperature = payload.temperature if payload.temperature is not None else 0.7
 
     state_a: PostState = {
         "topic": topic,
@@ -28,6 +31,11 @@ async def generate_candidate_ab(
         "hacker_critique": "",
         "revision_count": 0,
         "is_approved": False,
+        "llm_provider": provider,
+        "llm_model": model,
+        "temperature": temperature,
+        "draft_history": [],
+        "critique_history": [],
     }
 
     state_b: PostState = {
@@ -37,6 +45,11 @@ async def generate_candidate_ab(
         "hacker_critique": "",
         "revision_count": 0,
         "is_approved": False,
+        "llm_provider": provider,
+        "llm_model": model,
+        "temperature": temperature,
+        "draft_history": [],
+        "critique_history": [],
     }
 
     final_state_a, final_state_b = await asyncio.gather(
@@ -48,7 +61,7 @@ async def generate_candidate_ab(
     variant_b = final_state_b.get("current_draft", "")
 
     # Save to SQLite pair comparison
-    await crud.create_pair(
+    pair_record = await crud.create_pair(
         db=db,
         topic=topic,
         target_audience=tone_guidance,
@@ -63,7 +76,14 @@ async def generate_candidate_ab(
         variant_b=variant_b,
         iterations_a=final_state_a.get("revision_count", 0),
         iterations_b=final_state_b.get("revision_count", 0),
+        pair_id=str(pair_record.id) if pair_record else None,
+        provider_used=provider,
+        drafts_a=final_state_a.get("draft_history", []),
+        critiques_a=final_state_a.get("critique_history", []),
+        drafts_b=final_state_b.get("draft_history", []),
+        critiques_b=final_state_b.get("critique_history", []),
     )
+
 
 
 @router.post("", response_model=GenerateResponse)
