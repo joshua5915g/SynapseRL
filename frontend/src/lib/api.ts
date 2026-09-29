@@ -312,6 +312,83 @@ export async function formatMultiPlatform(topic: string, content: string): Promi
   }
 }
 
+export async function generateCarousel(topic: string, content: string, theme: string = "stealth"): Promise<any> {
+  try {
+    const res = await fetch(`${API_V1_BASE}/carousel/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ topic, content, theme }),
+    });
+    if (!res.ok) throw new Error("Carousel generation failed");
+    return await res.json();
+  } catch {
+    // Local simulation fallback
+    const lines = content.split("\n").filter(Boolean);
+    const hook = lines[0] || topic;
+    return {
+      topic,
+      theme,
+      total_slides: 6,
+      slides: [
+        {
+          slide_number: 1,
+          type: "cover",
+          badge: "EXECUTIVE ARCHITECTURE BRIEF",
+          title: hook,
+          subtitle: `A tactical deep-dive into ${topic} for engineering leaders.`,
+          footer: "Swipe to explore ➔"
+        },
+        {
+          slide_number: 2,
+          type: "problem",
+          badge: "THE ROOT FAILURE MODE",
+          title: "The Industry Trap",
+          content: lines[1] || "Conventional heuristics fail under high concurrency and real production stress.",
+          footer: "Why legacy approaches crumble at scale"
+        },
+        {
+          slide_number: 3,
+          type: "framework",
+          badge: "PARADIGM SHIFT",
+          title: "The Mental Model",
+          content: lines[2] || "Invert your data flow and treat state divergence as an active fault signal.",
+          footer: "Step 1: Invert the system architecture"
+        },
+        {
+          slide_number: 4,
+          type: "mechanics",
+          badge: "PRODUCTION PLAYBOOK",
+          title: "Core Mechanics",
+          content: lines[3] || "Enforce strict isolation, verify telemetry at runtime, and eliminate manual drift.",
+          footer: "Tactical execution principles"
+        },
+        {
+          slide_number: 5,
+          type: "checklist",
+          badge: "HIGH-CONVICTION CHECKLIST",
+          title: "The 4-Point Audit",
+          items: [
+            "Audit silent assumptions before writing code",
+            "Replace static heuristics with empirical telemetry",
+            "Enforce adversarial red-teaming in your review cycle",
+            "Track high-signal metrics over vanity engagement"
+          ],
+          footer: "Immediate action items for your team"
+        },
+        {
+          slide_number: 6,
+          type: "cta",
+          badge: "EXECUTIVE FORUM",
+          title: "Where does your stack sit?",
+          content: `How is your engineering team tackling ${topic}? Share your architecture challenges in the comments below.`,
+          footer: "Follow for daily high-conviction systems insights"
+        }
+      ],
+      printable_html: "<html><body>Simulated Carousel</body></html>"
+    };
+  }
+}
+
 
 
 
