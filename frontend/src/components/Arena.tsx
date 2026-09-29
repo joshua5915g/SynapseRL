@@ -22,7 +22,8 @@ import {
   FileText,
   ShieldAlert,
   Workflow,
-  Share2
+  Share2,
+  Scale
 } from "lucide-react";
 import { GenerateABResponse } from "@/lib/types";
 import { HookOptimizerModal } from "@/components/arena/HookOptimizerModal";
@@ -30,6 +31,7 @@ import { DebateInspectorModal } from "@/components/arena/DebateInspectorModal";
 import { CringeLinterModal } from "@/components/arena/CringeLinterModal";
 import { MultiPlatformExportModal } from "@/components/arena/MultiPlatformExportModal";
 import { CarouselGeneratorModal } from "@/components/arena/CarouselGeneratorModal";
+import { SyntheticJudgeModal } from "@/components/arena/SyntheticJudgeModal";
 
 interface ArenaProps {
   generationData: GenerateABResponse;
@@ -47,6 +49,7 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
   const [linterModalTarget, setLinterModalTarget] = useState<"A" | "B" | null>(null);
   const [multiPlatformModalTarget, setMultiPlatformModalTarget] = useState<"A" | "B" | null>(null);
   const [carouselModalTarget, setCarouselModalTarget] = useState<"A" | "B" | null>(null);
+  const [judgeModalOpen, setJudgeModalOpen] = useState<boolean>(false);
   const [variantAText, setVariantAText] = useState<string>(generationData.variant_a);
   const [variantBText, setVariantBText] = useState<string>(generationData.variant_b);
 
@@ -189,6 +192,17 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
             <Clock className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
             <span>Dwell: <strong className="text-white font-mono">{elapsedSeconds}s</strong></span>
           </div>
+
+          {/* AI Judge Button */}
+          <button
+            type="button"
+            onClick={() => setJudgeModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 transition-all cursor-pointer shadow-sm hover:scale-[1.02]"
+            title="Evaluate pair with LLM-as-a-Judge and auto-record DPO pair"
+          >
+            <Scale className="w-3.5 h-3.5 text-purple-400" />
+            <span className="font-semibold">AI Judge</span>
+          </button>
         </div>
       </div>
 
@@ -529,6 +543,21 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
           variantLabel={`Candidate ${carouselModalTarget}`}
           topic={generationData.topic}
           content={carouselModalTarget === "A" ? variantAText : variantBText}
+        />
+      )}
+
+      {/* Synthetic Judge Modal */}
+      {judgeModalOpen && (
+        <SyntheticJudgeModal
+          isOpen={judgeModalOpen}
+          onClose={() => setJudgeModalOpen(false)}
+          topic={generationData.topic}
+          variantAText={variantAText}
+          variantBText={variantBText}
+          onSelectWinner={(winner) => {
+            const dwell = Date.now() - startTime;
+            onSelectWinner(winner, dwell);
+          }}
         />
       )}
     </div>
