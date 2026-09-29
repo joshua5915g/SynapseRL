@@ -22,6 +22,7 @@ import {
   FileText
 } from "lucide-react";
 import { GenerateABResponse } from "@/lib/types";
+import { HookOptimizerModal } from "@/components/arena/HookOptimizerModal";
 
 interface ArenaProps {
   generationData: GenerateABResponse;
@@ -34,6 +35,27 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
   const [copiedVariant, setCopiedVariant] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"technical" | "linkedin">("technical");
+  const [hookModalTarget, setHookModalTarget] = useState<"A" | "B" | null>(null);
+  const [variantAText, setVariantAText] = useState<string>(generationData.variant_a);
+  const [variantBText, setVariantBText] = useState<string>(generationData.variant_b);
+
+  useEffect(() => {
+    setVariantAText(generationData.variant_a);
+    setVariantBText(generationData.variant_b);
+  }, [generationData]);
+
+  const handleApplyNewHook = (target: "A" | "B", newHook: string) => {
+    if (target === "A") {
+      const lines = variantAText.split("\n");
+      lines[0] = newHook;
+      setVariantAText(lines.join("\n"));
+    } else {
+      const lines = variantBText.split("\n");
+      lines[0] = newHook;
+      setVariantBText(lines.join("\n"));
+    }
+  };
+
 
   useEffect(() => {
     const now = Date.now();
@@ -176,7 +198,16 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 <span className="text-xs font-mono text-slate-400">{wordCountA} words • {readTimeA}s</span>
                 <button
                   type="button"
-                  onClick={() => handleCopy(generationData.variant_a, "A")}
+                  onClick={() => setHookModalTarget("A")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Optimize opening hook virality"
+                >
+                  <Flame className="w-3.5 h-3.5 text-rose-400" />
+                  <span>Hook (Virality)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleCopy(variantAText, "A")}
                   className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
                   aria-label="Copy Candidate A content"
@@ -193,7 +224,7 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
             {/* Content Body Rendering */}
             {viewMode === "technical" ? (
               <div className="rounded-xl border border-white/5 bg-slate-950/60 p-5 text-sm sm:text-base text-slate-200 leading-relaxed font-sans whitespace-pre-line mb-6 select-text min-h-[300px]">
-                {generationData.variant_a}
+                {variantAText}
               </div>
             ) : (
               /* LinkedIn Mockup Card */
@@ -210,8 +241,9 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </div>
 
                 <div className="text-sm text-slate-100 whitespace-pre-line leading-relaxed border-t border-slate-800/80 pt-3">
-                  {generationData.variant_a}
+                  {variantAText}
                 </div>
+
 
                 <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
                   <span className="flex items-center gap-1.5 hover:text-indigo-400 transition-colors cursor-pointer">
@@ -269,7 +301,16 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 <span className="text-xs font-mono text-slate-400">{wordCountB} words • {readTimeB}s</span>
                 <button
                   type="button"
-                  onClick={() => handleCopy(generationData.variant_b, "B")}
+                  onClick={() => setHookModalTarget("B")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Optimize opening hook virality"
+                >
+                  <Flame className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Hook (Virality)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleCopy(variantBText, "B")}
                   className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
                   aria-label="Copy Candidate B content"
@@ -286,7 +327,7 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
             {/* Content Body Rendering */}
             {viewMode === "technical" ? (
               <div className="rounded-xl border border-white/5 bg-slate-950/60 p-5 text-sm sm:text-base text-slate-200 leading-relaxed font-sans whitespace-pre-line mb-6 select-text min-h-[300px]">
-                {generationData.variant_b}
+                {variantBText}
               </div>
             ) : (
               /* LinkedIn Mockup Card */
@@ -303,7 +344,7 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </div>
 
                 <div className="text-sm text-slate-100 whitespace-pre-line leading-relaxed border-t border-slate-800/80 pt-3">
-                  {generationData.variant_b}
+                  {variantBText}
                 </div>
 
                 <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
@@ -336,6 +377,19 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
           </button>
         </div>
       </div>
+
+      {/* Hook Optimizer Modal */}
+      {hookModalTarget && (
+        <HookOptimizerModal
+          isOpen={hookModalTarget !== null}
+          onClose={() => setHookModalTarget(null)}
+          variantLabel={`Candidate ${hookModalTarget}`}
+          currentText={hookModalTarget === "A" ? variantAText : variantBText}
+          topic={generationData.topic}
+          onApplyHook={(newHook) => handleApplyNewHook(hookModalTarget, newHook)}
+        />
+      )}
     </div>
   );
 }
+

@@ -4,6 +4,7 @@ from app.api.routes.rlhf import router as rlhf_router
 from app.api.routes.publisher import router as publisher_router
 from app.api.routes.telemetry import router as telemetry_router
 from app.api.routes.llm import router as llm_router
+from app.api.routes.hooks import router as hooks_router
 
 api_router = APIRouter()
 api_router.include_router(generate_router)
@@ -11,4 +12,6 @@ api_router.include_router(rlhf_router)
 api_router.include_router(publisher_router)
 api_router.include_router(telemetry_router)
 api_router.include_router(llm_router)
+api_router.include_router(hooks_router)
+
 

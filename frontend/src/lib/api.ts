@@ -170,3 +170,60 @@ export async function scheduleStealthPost(
   }
   return res.json();
 }
+
+export async function scoreHook(text: string): Promise<any> {
+  try {
+    const res = await fetch(`${API_V1_BASE}/hooks/score`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+    if (!res.ok) throw new Error("Scoring failed");
+    return (await res.json()).data;
+  } catch (err) {
+    // Local calculation fallback
+    const firstLine = text.split("\n")[0] || "";
+    const hasNum = /\d+/.test(firstLine);
+    const score = Math.min(95, 50 + (hasNum ? 25 : 0) + (firstLine.length < 130 ? 20 : 0));
+    return {
+      score,
+      grade: score >= 85 ? "S" : score >= 75 ? "A" : "B",
+      first_line: firstLine,
+      suggestions: ["Add a numeric anchor or contrast hook."],
+    };
+  }
+}
+
+export async function generateAlternativeHooks(topic: string, draft?: string): Promise<any[]> {
+  try {
+    const res = await fetch(`${API_V1_BASE}/hooks/generate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ topic, draft }),
+    });
+    if (!res.ok) throw new Error("Hook generation failed");
+    return (await res.json()).hooks || [];
+  } catch {
+    return [
+      {
+        archetype: "Contrarian Dollar Metric",
+        hook: `Most teams scaling ${topic} are making a $200k architectural mistake before writing line 1.`,
+        score: 92,
+        grade: "S",
+      },
+      {
+        archetype: "Counter-Intuitive Truth",
+        hook: `Unpopular opinion: 90% of what is published about ${topic} on LinkedIn is cargo-cult engineering.`,
+        score: 86,
+        grade: "A",
+      },
+      {
+        archetype: "Empirical Proof",
+        hook: `We reduced failure rates by 74% when benchmarking ${topic}. Here is the exact 3-step breakdown:`,
+        score: 84,
+        grade: "A",
+      },
+    ];
+  }
+}
+
