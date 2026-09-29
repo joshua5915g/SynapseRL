@@ -1,11 +1,13 @@
 """API router for LLM-as-a-Judge synthetic RLHF bootstrapping."""
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any, List
 
+from app.api.dependencies import get_db
+from app.db import crud
 from app.services.synthetic_judge import evaluate_pair_synthetic
-from app.services.rlhf import rlhf_service
 
 router = APIRouter()
 
@@ -20,7 +22,10 @@ class SyntheticBatchRequest(BaseModel):
     count: Optional[int] = Field(3, description="Number of synthetic pairs to simulate and annotate")
 
 @router.post("/evaluate")
-async def evaluate_pair_endpoint(req: SyntheticJudgeRequest):
+async def evaluate_pair_endpoint(
+    req: SyntheticJudgeRequest,
+    db: AsyncSession = Depends(get_db)
+):
     result = evaluate_pair_synthetic(
         topic=req.topic,
         variant_a=req.variant_a,
@@ -29,19 +34,31 @@ async def evaluate_pair_endpoint(req: SyntheticJudgeRequest):
     )
 
     if req.auto_record_dpo:
-        dpo = result["dpo_record"]
-        await rlhf_service.record_preference(
-            pair_id=f"synth-{req.topic[:16].strip().replace(' ', '-').lower()}",
-            prompt=dpo["prompt"],
-            chosen=dpo["chosen"],
-            rejected=dpo["rejected"],
-            dwell_time_ms=12000
+        pair = await crud.create_pair(
+            db=db,
+            topic=req.topic,
+            target_audience=req.audience or "B2B Tech Leaders",
+            candidate_a=req.variant_a,
+            candidate_b=req.variant_b
+        )
+        await crud.record_vote(
+            db=db,
+            pair=pair,
+            chosen_id=result["winner"],
+            rejected_id="candidate_b" if result["winner"] == "candidate_a" else "candidate_a",
+            micro_tags=["LLM Judge Auto-Annotation", "High Technical Depth"],
+            dwell_time_ms=12000,
+            confidence_rating=5,
+            feedback_notes=result["verdict_rationale"]
         )
 
     return result
 
 @router.post("/bootstrap-batch")
-async def bootstrap_batch_endpoint(req: SyntheticBatchRequest):
+async def bootstrap_batch_endpoint(
+    req: SyntheticBatchRequest,
+    db: AsyncSession = Depends(get_db)
+):
     sample_topics = [
         "Distributed Transaction Sagas vs Two-Phase Commit",
         "Why Multi-Tenant Vector Indexing Blows Up Memory",
@@ -59,12 +76,22 @@ async def bootstrap_batch_endpoint(req: SyntheticBatchRequest):
             audience="B2B CTOs & Engineering VPs"
         )
         dpo = res["dpo_record"]
-        await rlhf_service.record_preference(
-            pair_id=f"batch-synth-{i+1}",
-            prompt=dpo["prompt"],
-            chosen=dpo["chosen"],
-            rejected=dpo["rejected"],
-            dwell_time_ms=15000
+        pair = await crud.create_pair(
+            db=db,
+            topic=topic,
+            target_audience="B2B CTOs & Engineering VPs",
+            candidate_a=dpo["chosen"],
+            candidate_b=dpo["rejected"]
+        )
+        await crud.record_vote(
+            db=db,
+            pair=pair,
+            chosen_id="candidate_a",
+            rejected_id="candidate_b",
+            micro_tags=["Cold-Start Synthetic Bootstrap", "Zero Corporate Fluff"],
+            dwell_time_ms=15000,
+            confidence_rating=5,
+            feedback_notes=res["verdict_rationale"]
         )
         annotated.append({
             "topic": topic,
