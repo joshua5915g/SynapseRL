@@ -8,6 +8,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { Badge } from "@/components/ui/badge";
 import { TelemetryMetrics } from "@/lib/types";
 import { fetchTelemetry, simulateAudienceEngagement } from "@/lib/api";
+import { SmartSchedulerCard } from "@/components/telemetry/SmartSchedulerCard";
 
 export default function TelemetryPage() {
   const [metrics, setMetrics] = useState<TelemetryMetrics | null>(null);
@@ -199,6 +200,9 @@ export default function TelemetryPage() {
           </div>
         </div>
       </div>
+
+      {/* Global Timezone Engagement Heatmap & Smart Scheduler Queue */}
+      <SmartSchedulerCard />
 
       {/* Empirical RL Feedback Loop: Real Audience Ingestion */}
       <div className="glass-panel p-6 rounded-2xl border-white/[0.08] space-y-5">
