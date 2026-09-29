@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { GenerateABResponse } from "@/lib/types";
 import { HookOptimizerModal } from "@/components/arena/HookOptimizerModal";
+import { DebateInspectorModal } from "@/components/arena/DebateInspectorModal";
 
 interface ArenaProps {
   generationData: GenerateABResponse;
@@ -36,8 +37,10 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
   const [copiedVariant, setCopiedVariant] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"technical" | "linkedin">("technical");
   const [hookModalTarget, setHookModalTarget] = useState<"A" | "B" | null>(null);
+  const [debateModalTarget, setDebateModalTarget] = useState<"A" | "B" | null>(null);
   const [variantAText, setVariantAText] = useState<string>(generationData.variant_a);
   const [variantBText, setVariantBText] = useState<string>(generationData.variant_b);
+
 
   useEffect(() => {
     setVariantAText(generationData.variant_a);
@@ -207,7 +210,17 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setDebateModalTarget("A")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Inspect Adversarial Debate Traces & Diffs"
+                >
+                  <Workflow className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Debate Trace</span>
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleCopy(variantAText, "A")}
+
                   className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
                   aria-label="Copy Candidate A content"
@@ -310,6 +323,15 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
                 </button>
                 <button
                   type="button"
+                  onClick={() => setDebateModalTarget("B")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 text-xs font-mono transition-all cursor-pointer"
+                  title="Inspect Adversarial Debate Traces & Diffs"
+                >
+                  <Workflow className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Debate Trace</span>
+                </button>
+                <button
+                  type="button"
                   onClick={() => handleCopy(variantBText, "B")}
                   className="p-2 rounded-xl border border-white/10 bg-slate-950/60 text-slate-400 hover:text-white hover:border-white/20 transition-all cursor-pointer"
                   title="Copy to clipboard"
@@ -389,7 +411,21 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
           onApplyHook={(newHook) => handleApplyNewHook(hookModalTarget, newHook)}
         />
       )}
+
+      {/* Debate Trace & Diff Inspector Modal */}
+      {debateModalTarget && (
+        <DebateInspectorModal
+          isOpen={debateModalTarget !== null}
+          onClose={() => setDebateModalTarget(null)}
+          variantLabel={`Candidate ${debateModalTarget}`}
+          topic={generationData.topic}
+          drafts={debateModalTarget === "A" ? (generationData.drafts_a || []) : (generationData.drafts_b || [])}
+          critiques={debateModalTarget === "A" ? (generationData.critiques_a || []) : (generationData.critiques_b || [])}
+          finalDraft={debateModalTarget === "A" ? variantAText : variantBText}
+        />
+      )}
     </div>
   );
 }
+
 
