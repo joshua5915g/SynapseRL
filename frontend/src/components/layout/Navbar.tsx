@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Flame, Activity, Cpu, Sparkles, Menu, X, ArrowUpRight } from "lucide-react";
+import { Flame, Activity, Cpu, Sparkles, Menu, X, ArrowUpRight, Layers } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export function Navbar() {
@@ -13,6 +13,7 @@ export function Navbar() {
   const navLinks = [
     { href: "/", label: "Mission Control", icon: Activity, badge: null },
     { href: "/arena", label: "RLHF Arena", icon: Flame, badge: "Live" },
+    { href: "/carousel", label: "Carousel Studio", icon: Layers, badge: "Studio" },
     { href: "/telemetry", label: "Reward Telemetry", icon: Cpu, badge: null },
   ];
 
