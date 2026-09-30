@@ -23,7 +23,8 @@ import {
   ShieldAlert,
   Workflow,
   Share2,
-  Scale
+  Scale,
+  Database
 } from "lucide-react";
 import { GenerateABResponse } from "@/lib/types";
 import { HookOptimizerModal } from "@/components/arena/HookOptimizerModal";
@@ -32,6 +33,7 @@ import { CringeLinterModal } from "@/components/arena/CringeLinterModal";
 import { MultiPlatformExportModal } from "@/components/arena/MultiPlatformExportModal";
 import { CarouselGeneratorModal } from "@/components/arena/CarouselGeneratorModal";
 import { SyntheticJudgeModal } from "@/components/arena/SyntheticJudgeModal";
+import { KnowledgeVaultModal } from "@/components/arena/KnowledgeVaultModal";
 
 interface ArenaProps {
   generationData: GenerateABResponse;
@@ -50,6 +52,7 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
   const [multiPlatformModalTarget, setMultiPlatformModalTarget] = useState<"A" | "B" | null>(null);
   const [carouselModalTarget, setCarouselModalTarget] = useState<"A" | "B" | null>(null);
   const [judgeModalOpen, setJudgeModalOpen] = useState<boolean>(false);
+  const [vaultModalOpen, setVaultModalOpen] = useState<boolean>(false);
   const [variantAText, setVariantAText] = useState<string>(generationData.variant_a);
   const [variantBText, setVariantBText] = useState<string>(generationData.variant_b);
 
@@ -202,6 +205,17 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
           >
             <Scale className="w-3.5 h-3.5 text-purple-400" />
             <span className="font-semibold">AI Judge</span>
+          </button>
+
+          {/* Knowledge Vault / Brand DNA Button */}
+          <button
+            type="button"
+            onClick={() => setVaultModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 transition-all cursor-pointer shadow-sm hover:scale-[1.02]"
+            title="Open Brand Voice DNA & Knowledge Vault"
+          >
+            <Database className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="font-semibold">Brand DNA</span>
           </button>
         </div>
       </div>
@@ -558,6 +572,15 @@ export function Arena({ generationData, onSelectWinner, onReset }: ArenaProps) {
             const dwell = Date.now() - startTime;
             onSelectWinner(winner, dwell);
           }}
+        />
+      )}
+
+      {/* Knowledge Vault / Brand Voice DNA Modal */}
+      {vaultModalOpen && (
+        <KnowledgeVaultModal
+          isOpen={vaultModalOpen}
+          onClose={() => setVaultModalOpen(false)}
+          currentTopic={generationData.topic}
         />
       )}
     </div>

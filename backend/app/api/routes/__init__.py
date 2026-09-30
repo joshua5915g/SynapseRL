@@ -12,6 +12,7 @@ from app.api.routes.formatter import router as formatter_router
 from app.api.routes.carousel import router as carousel_router
 from app.api.routes.synthetic_judge import router as synthetic_judge_router
 from app.api.routes.scheduler import router as scheduler_router
+from app.api.routes.vault import router as vault_router
 
 api_router = APIRouter()
 api_router.include_router(generate_router)
@@ -27,6 +28,7 @@ api_router.include_router(formatter_router)
 api_router.include_router(carousel_router, prefix="/carousel", tags=["carousel"])
 api_router.include_router(synthetic_judge_router, prefix="/rlhf/synthetic", tags=["synthetic-judge"])
 api_router.include_router(scheduler_router, prefix="/schedule", tags=["scheduler"])
+api_router.include_router(vault_router)
 
 
 
