@@ -1,0 +1,46 @@
+[
+  {
+    "id": "seed-1",
+    "title": "Scaling Monolith to Microservices Post-Mortem",
+    "content": "Most engineering leaders migrate to microservices too early because of resume-driven development. In 2024, our latency tripled when we split our core payment service into 14 gRPC microservices. We consolidated 8 of them back into a modular monolith and cut cloud costs by 42%.",
+    "doc_type": "viral_post",
+    "tags": [
+      "architecture",
+      "cost-optimization",
+      "contrarian"
+    ],
+    "created_at": "2026-09-30T04:34:11.534788",
+    "style_metrics": {
+      "avg_sentence_len": 18.2,
+      "vocabulary_richness": 0.81,
+      "primary_tone": "Contrarian Pragmatist",
+      "banned_buzzwords": [
+        "synergy",
+        "paradigm shift",
+        "leverage"
+      ]
+    }
+  },
+  {
+    "id": "seed-2",
+    "title": "B2B SaaS Pricing Playbook: Usage vs Per-Seat",
+    "content": "Per-seat pricing penalizes your champion for spreading your product internally. When we flipped our billing model from $49/seat/mo to $0.05 per AI inference event, net revenue retention (NRR) jumped from 104% to 138% in two quarters. Align pricing with client value, not headcount.",
+    "doc_type": "whitepaper",
+    "tags": [
+      "pricing",
+      "saas-metrics",
+      "growth"
+    ],
+    "created_at": "2026-09-30T04:34:11.534825",
+    "style_metrics": {
+      "avg_sentence_len": 16.5,
+      "vocabulary_richness": 0.78,
+      "primary_tone": "Analytical Executive",
+      "banned_buzzwords": [
+        "game changer",
+        "revolutionary",
+        "disrupt"
+      ]
+    }
+  }
+]

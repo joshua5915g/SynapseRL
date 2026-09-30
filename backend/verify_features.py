@@ -3,8 +3,12 @@
 import asyncio
 from httpx import AsyncClient, ASGITransport
 from app.main import app
+from app.db.session import init_sync_db
+from app.db.database import init_db
 
 async def run_feature_checks():
+    init_sync_db()
+    await init_db()
     results = {}
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
