@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Flame, Activity, Cpu, Sparkles, Menu, X, ArrowUpRight, Layers, ShieldAlert, Zap, Calendar, FolderArchive, Scale } from "lucide-react";
+import { Flame, Activity, Cpu, Sparkles, Menu, X, ArrowUpRight, Layers, ShieldAlert, Zap, Calendar, FolderArchive, Scale, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export function Navbar() {
@@ -13,13 +13,14 @@ export function Navbar() {
   const navLinks = [
     { href: "/", label: "Mission Control", icon: Activity, badge: null },
     { href: "/arena", label: "RLHF Arena", icon: Flame, badge: "Live" },
-    { href: "/carousel", label: "Carousel Studio", icon: Layers, badge: "Studio" },
-    { href: "/linter", label: "Cringe Hunter", icon: ShieldAlert, badge: "Linter" },
-    { href: "/hooks", label: "Hook Lab", icon: Zap, badge: "Virality" },
-    { href: "/schedule", label: "Scheduler", icon: Calendar, badge: "Smart" },
-    { href: "/vault", label: "Vault", icon: FolderArchive, badge: "DNA" },
-    { href: "/synthetic", label: "AI Judge", icon: Scale, badge: "Auto" },
-    { href: "/telemetry", label: "Reward Telemetry", icon: Cpu, badge: null },
+    { href: "/carousel", label: "Carousel", icon: Layers, badge: "Studio" },
+    { href: "/linter", label: "Linter", icon: ShieldAlert, badge: null },
+    { href: "/hooks", label: "Hook Lab", icon: Zap, badge: null },
+    { href: "/repurpose", label: "Repurpose", icon: Share2, badge: "Multi" },
+    { href: "/schedule", label: "Schedule", icon: Calendar, badge: null },
+    { href: "/vault", label: "Vault", icon: FolderArchive, badge: null },
+    { href: "/synthetic", label: "AI Judge", icon: Scale, badge: null },
+    { href: "/telemetry", label: "Telemetry", icon: Cpu, badge: null },
   ];
 
   return (
