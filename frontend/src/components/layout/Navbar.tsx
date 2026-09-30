@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Flame, Activity, Cpu, Sparkles, Menu, X, ArrowUpRight, Layers, ShieldAlert, Zap, Calendar, FolderArchive, Scale, Share2, Users, TrendingUp } from "lucide-react";
+import { Flame, Activity, Cpu, Sparkles, Menu, X, ArrowUpRight, Layers, ShieldAlert, Zap, Calendar, FolderArchive, Scale, Share2, Users, TrendingUp, Database } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export function Navbar() {
@@ -22,6 +22,7 @@ export function Navbar() {
     { href: "/schedule", label: "Schedule", icon: Calendar, badge: null },
     { href: "/vault", label: "Vault", icon: FolderArchive, badge: null },
     { href: "/synthetic", label: "AI Judge", icon: Scale, badge: null },
+    { href: "/training", label: "DPO Hub", icon: Database, badge: "TRL" },
     { href: "/telemetry", label: "Telemetry", icon: Cpu, badge: null },
   ];
 
