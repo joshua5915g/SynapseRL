@@ -147,15 +147,15 @@ export default function RLHFArenaPage() {
               className="hidden xl:block w-72 flex-shrink-0 animate-rise delay-4 sticky top-24 pointer-events-none select-none"
               aria-hidden="true"
             >
-              <div className="rounded-2xl border border-white/[0.08] bg-[#0c1222]/35 backdrop-blur-md p-5 space-y-5 opacity-45 hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
-                <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+              <div className="rounded-2xl border border-orange-500/15 bg-[#1c0803]/45 backdrop-blur-md p-5 space-y-5 opacity-55 hover:opacity-100 transition-opacity duration-300 pointer-events-auto shadow-2xl">
+                <div className="flex items-center justify-between border-b border-orange-500/10 pb-3">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                    <span className="text-[11px] font-mono text-cyan-300 font-semibold uppercase tracking-wider">
+                    <span className="w-2 h-2 rounded-full bg-[#ff3d00] animate-pulse" />
+                    <span className="text-[11px] font-mono text-[#ff8a1f] font-semibold uppercase tracking-wider">
                       Telemetry Stream
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400">120ms tick</span>
+                  <span className="text-[10px] font-mono text-orange-300/50">120ms tick</span>
                 </div>
 
                 {/* Micro Bar Gauges */}
@@ -165,7 +165,7 @@ export default function RLHFArenaPage() {
                       <span
                         key={i}
                         style={{ height: `${h}%` }}
-                        className="w-2.5 rounded-t bg-gradient-to-t from-indigo-500/40 to-cyan-400/80 inline-block transition-all duration-500"
+                        className="w-2.5 rounded-t bg-gradient-to-t from-[#ff3d00]/30 via-[#ff6a00]/70 to-[#ff8a1f] inline-block transition-all duration-500"
                       />
                     ))}
                   </div>
@@ -173,32 +173,32 @@ export default function RLHFArenaPage() {
                     <span className="block text-2xl font-bold font-display text-white tracking-tight leading-none">
                       +42.6%
                     </span>
-                    <span className="text-[10px] font-mono text-slate-400">Reward Margin</span>
+                    <span className="text-[10px] font-mono text-orange-300/60">Reward Margin</span>
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <h4 className="text-xs font-semibold text-slate-200 font-mono uppercase tracking-wide">
+                  <h4 className="text-xs font-semibold text-orange-100 font-mono uppercase tracking-wide">
                     Reward Convergence
                   </h4>
-                  <p className="text-[11.5px] text-slate-400 leading-relaxed font-sans">
+                  <p className="text-[11.5px] text-orange-200/60 leading-relaxed font-sans">
                     Continuous pairwise ranking over SQLite DPO offline trajectories.
                   </p>
                 </div>
 
                 {/* Quick Micro Stat Rows */}
-                <div className="space-y-2 pt-2 border-t border-white/[0.06] text-[11px] font-mono">
+                <div className="space-y-2 pt-2 border-t border-orange-500/10 text-[11px] font-mono">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-400">KL Divergence:</span>
-                    <span className="text-emerald-400 font-semibold">0.038 β</span>
+                    <span className="text-orange-200/50">KL Divergence:</span>
+                    <span className="text-[#ff8a1f] font-semibold">0.038 β</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-400">Dwell Multiplier:</span>
-                    <span className="text-cyan-400 font-semibold">1.42x</span>
+                    <span className="text-orange-200/50">Dwell Multiplier:</span>
+                    <span className="text-amber-400 font-semibold">1.42x</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-400">TRL Export Cache:</span>
-                    <span className="text-indigo-300 font-semibold">Ready</span>
+                    <span className="text-orange-200/50">TRL Export Cache:</span>
+                    <span className="text-emerald-400 font-semibold">Ready</span>
                   </div>
                 </div>
 

@@ -132,16 +132,16 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
     <div className="w-full max-w-4xl mx-auto text-center space-y-8">
       {/* Top Status & Architecture Badge */}
       <div className="animate-rise delay-1 flex flex-wrap items-center justify-center gap-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-950/40 text-indigo-300 text-xs font-mono uppercase tracking-wider backdrop-blur-md shadow-glow">
-          <Cpu className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-orange-500/30 bg-orange-950/40 text-orange-300 text-xs font-mono uppercase tracking-wider backdrop-blur-md shadow-glow">
+          <Cpu className="w-3.5 h-3.5 text-[#ff8a1f]" />
           <span>LangGraph Adversarial State Machine</span>
         </div>
         <button
           type="button"
           onClick={() => setShowGraphDetails(!showGraphDetails)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-slate-900/60 hover:bg-slate-900 text-slate-400 hover:text-slate-200 text-xs font-mono transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-orange-950/30 hover:bg-orange-950/60 text-orange-200/70 hover:text-white text-xs font-mono transition-colors cursor-pointer"
         >
-          <Workflow className="w-3.5 h-3.5 text-indigo-400" />
+          <Workflow className="w-3.5 h-3.5 text-[#ff6a00]" />
           <span>{showGraphDetails ? "Hide Pipeline Topology" : "View Agent Graph Flow"}</span>
         </button>
       </div>
@@ -151,41 +151,41 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
         <h1 className="font-display-tight text-4xl sm:text-5xl lg:text-7xl font-semibold text-white tracking-tight leading-[0.98] text-balance">
           Autonomous Content<br />
           Engineered for Conviction<br />
-          Not <em className="font-editorial text-indigo-300 font-normal px-1">Hallucinations</em>
+          Not <em className="font-editorial text-[#ff8a1f] font-normal px-1">Hallucinations</em>
         </h1>
-        <p className="text-slate-300/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-sans">
+        <p className="text-orange-100/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-sans">
           Synthesize high-velocity thought leadership through an adversarial loop between a{" "}
-          <span className="text-indigo-300 font-medium">Domain SME Node</span> and an{" "}
-          <span className="text-cyan-400 font-medium">Algorithm Hacker</span>. Continuous offline DPO reward updates.
+          <span className="text-[#ff8a1f] font-medium">Domain SME Node</span> and an{" "}
+          <span className="text-[#ff5722] font-medium">Algorithm Hacker</span>. Continuous offline DPO reward updates.
         </p>
 
         {/* Hero Proof Row & Precision Stat Cards */}
         <div className="flex flex-wrap items-center justify-center gap-5 pt-2">
           {/* Overlapping Gradient Avatar Dots */}
-          <div className="flex items-center gap-3 px-3 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.02]">
+          <div className="flex items-center gap-3 px-3 py-1.5 rounded-full border border-orange-500/20 bg-orange-950/30">
             <div className="flex -space-x-2">
-              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-cyan-400 to-indigo-500 inline-block shadow-sm" />
-              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-purple-500 to-pink-500 inline-block shadow-sm" />
-              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-amber-400 to-rose-500 inline-block shadow-sm" />
-              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-emerald-400 to-cyan-500 inline-block shadow-sm" />
+              <span className="w-6 h-6 rounded-full border-2 border-[#120400] bg-gradient-to-tr from-[#ff3d00] to-[#ff8a1f] inline-block shadow-sm" />
+              <span className="w-6 h-6 rounded-full border-2 border-[#120400] bg-gradient-to-tr from-[#ff6a00] to-[#fbbf24] inline-block shadow-sm" />
+              <span className="w-6 h-6 rounded-full border-2 border-[#120400] bg-gradient-to-tr from-[#ea3800] to-[#f43f5e] inline-block shadow-sm" />
+              <span className="w-6 h-6 rounded-full border-2 border-[#120400] bg-gradient-to-tr from-[#ff8a1f] to-[#f59e0b] inline-block shadow-sm" />
             </div>
             <div className="text-left font-mono">
               <strong className="block text-xs text-white font-semibold leading-tight">1,420+ Pairs Evaluated</strong>
-              <span className="text-[10px] text-slate-400">Human-in-the-Loop Arena</span>
+              <span className="text-[10px] text-orange-300/60">Human-in-the-Loop Arena</span>
             </div>
           </div>
 
           {/* Micro Precision Stat Cards */}
           <div className="flex items-center gap-2.5">
-            <div className="stat-precision-card px-3.5 py-1.5 rounded-xl text-left">
-              <span className="absolute top-1.5 right-2 text-[10px] text-white/30 font-mono select-none">*</span>
+            <div className="stat-precision-card px-3.5 py-1.5 rounded-xl text-left border-orange-500/20">
+              <span className="absolute top-1.5 right-2 text-[10px] text-orange-200/40 font-mono select-none">*</span>
               <div className="text-sm font-bold font-display text-white leading-tight">99.2%</div>
-              <div className="text-[9.5px] text-slate-400 font-mono">Cliché Filter</div>
+              <div className="text-[9.5px] text-orange-300/60 font-mono">Cliché Filter</div>
             </div>
-            <div className="stat-precision-card px-3.5 py-1.5 rounded-xl text-left">
-              <span className="absolute top-1.5 right-2 text-[10px] text-white/30 font-mono select-none">*</span>
-              <div className="text-sm font-bold font-display text-cyan-300 leading-tight">0.038 β</div>
-              <div className="text-[9.5px] text-slate-400 font-mono">KL Stability</div>
+            <div className="stat-precision-card px-3.5 py-1.5 rounded-xl text-left border-orange-500/20">
+              <span className="absolute top-1.5 right-2 text-[10px] text-orange-200/40 font-mono select-none">*</span>
+              <div className="text-sm font-bold font-display text-[#ff8a1f] leading-tight">0.038 β</div>
+              <div className="text-[9.5px] text-orange-300/60 font-mono">KL Stability</div>
             </div>
           </div>
         </div>
@@ -193,44 +193,44 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
 
       {/* Expandable Architecture Diagram */}
       {showGraphDetails && (
-        <div className="glass-panel p-6 rounded-2xl text-left border-indigo-500/20 bg-slate-950/80 animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.08]">
+        <div className="glass-panel p-6 rounded-2xl text-left border-orange-500/20 bg-[#160602]/90 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-orange-500/10">
             <div className="flex items-center gap-2">
-              <GitFork className="w-4 h-4 text-cyan-400" />
+              <GitFork className="w-4 h-4 text-[#ff8a1f]" />
               <h3 className="text-sm font-semibold text-white">LangGraph Adversarial Synthesis Topology</h3>
             </div>
-            <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/30">
+            <span className="text-[11px] font-mono text-[#ff8a1f] bg-orange-950/50 px-2 py-0.5 rounded border border-orange-500/30">
               State: Deterministic Graph
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl bg-slate-900/60 border border-indigo-500/20 space-y-2">
-              <div className="flex items-center gap-2 text-indigo-400 font-mono text-xs font-semibold">
-                <span className="w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center text-[10px]">1</span>
+            <div className="p-4 rounded-xl bg-[#1c0803]/80 border border-orange-500/20 space-y-2">
+              <div className="flex items-center gap-2 text-[#ff8a1f] font-mono text-xs font-semibold">
+                <span className="w-5 h-5 rounded-full bg-orange-500/20 flex items-center justify-center text-[10px]">1</span>
                 SME Writer Agent
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-orange-200/60">
                 Researches domain architecture, extracts non-obvious engineering proofs, and guarantees technical accuracy.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/60 border border-rose-500/20 space-y-2">
-              <div className="flex items-center gap-2 text-rose-400 font-mono text-xs font-semibold">
-                <span className="w-5 h-5 rounded-full bg-rose-500/20 flex items-center justify-center text-[10px]">2</span>
+            <div className="p-4 rounded-xl bg-[#1c0803]/80 border border-[#ff3d00]/30 space-y-2">
+              <div className="flex items-center gap-2 text-[#ff5722] font-mono text-xs font-semibold">
+                <span className="w-5 h-5 rounded-full bg-[#ff3d00]/20 flex items-center justify-center text-[10px]">2</span>
                 Algorithm Hacker
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-orange-200/60">
                 Audits dwell-time triggers, optimizes line breaks, and refactors opening hooks to maximize feed velocity.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/60 border border-cyan-500/20 space-y-2">
-              <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs font-semibold">
-                <span className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center text-[10px]">3</span>
+            <div className="p-4 rounded-xl bg-[#1c0803]/80 border border-amber-500/20 space-y-2">
+              <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-semibold">
+                <span className="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center text-[10px]">3</span>
                 RLHF & DPO Arena
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-orange-200/60">
                 Human-in-the-loop side-by-side preference vote. Winner queues for LinkedIn dispatch; pair saves to SQLite DPO database.
               </p>
             </div>
@@ -239,11 +239,11 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
       )}
 
       {/* Main Interactive Form Card */}
-      <div className="animate-rise delay-3 glass-panel p-6 sm:p-8 rounded-2xl relative shadow-2xl shadow-indigo-950/40 text-left space-y-6">
+      <div className="animate-rise delay-3 glass-panel p-6 sm:p-8 rounded-2xl relative shadow-2xl shadow-orange-950/50 text-left space-y-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Main Input Field */}
           <div>
-            <label htmlFor="topic-input" className="block text-xs font-mono uppercase text-slate-400 mb-2">
+            <label htmlFor="topic-input" className="block text-xs font-mono uppercase text-orange-200/60 mb-2">
               1. Enter Topic or Technical Thesis
             </label>
             <div className="relative flex flex-col sm:flex-row items-center gap-3">
@@ -255,14 +255,14 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
                   onChange={(e) => setTopic(e.target.value)}
                   placeholder="e.g. Zero-Day Exploits in Cloud Native DBs, or State Drift in Multi-Agent Workflows..."
                   disabled={isLoading}
-                  className="w-full rounded-xl border border-white/10 bg-slate-950/80 px-5 py-4 text-sm sm:text-base text-white placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 disabled:opacity-50 transition-all font-sans"
+                  className="w-full rounded-xl border border-orange-900/40 bg-[#160602]/90 px-5 py-4 text-sm sm:text-base text-white placeholder:text-orange-200/40 focus:border-[#ff5722] focus:outline-none focus:ring-2 focus:ring-[#ff3d00]/25 disabled:opacity-50 transition-all font-sans"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={!topic.trim() || isLoading}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 pl-6 pr-2 py-2 font-semibold text-sm sm:text-base text-white shadow-pill-glow transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer flex-shrink-0 border border-white/10"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#ff3d00] via-[#ea3800] to-[#ff8a1f] hover:from-[#ff5722] hover:to-[#ffa726] pl-6 pr-2 py-2 font-semibold text-sm sm:text-base text-white shadow-pill-glow transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer flex-shrink-0 border border-orange-400/25"
               >
                 {isLoading ? (
                   <>
@@ -271,9 +271,9 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-4 h-4 text-cyan-200" />
+                    <Sparkles className="w-4 h-4 text-amber-200" />
                     <span>Generate Candidates</span>
-                    <span className="w-9 h-9 rounded-full bg-white text-[#0c1222] flex items-center justify-center shadow-md">
+                    <span className="w-9 h-9 rounded-full bg-white text-[#120400] flex items-center justify-center shadow-md">
                       <ArrowRight className="w-4 h-4" />
                     </span>
                   </>
@@ -315,19 +315,19 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
                     disabled={isLoading}
                     className={`flex flex-col text-left p-3 rounded-xl border transition-all cursor-pointer ${
                       isSelected
-                        ? "border-cyan-500 bg-cyan-950/30 shadow-glow"
-                        : "border-white/[0.08] bg-slate-950/40 hover:border-white/20 hover:bg-slate-900/60"
+                        ? "border-[#ff5722] bg-orange-950/40 shadow-glow"
+                        : "border-orange-950/40 bg-[#160602]/60 hover:border-orange-500/30 hover:bg-[#200903]"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-1 mb-1">
                       <span className="text-xs font-semibold text-white truncate">{p.name}</span>
                     </div>
                     <span className={`text-[9px] font-mono px-1 py-0.5 rounded border w-fit mb-1.5 ${
-                      isSelected ? "border-cyan-400/40 bg-cyan-500/10 text-cyan-300" : "border-slate-800 text-slate-500"
+                      isSelected ? "border-orange-400/40 bg-orange-500/10 text-[#ff8a1f]" : "border-orange-950 text-orange-300/40"
                     }`}>
                       {p.badge}
                     </span>
-                    <p className="text-[10px] text-slate-400 leading-tight line-clamp-2">
+                    <p className="text-[10px] text-orange-200/50 leading-tight line-clamp-2">
                       {p.desc}
                     </p>
                   </button>
@@ -338,7 +338,7 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
 
           {/* Tone Selector */}
           <div>
-            <label className="block text-xs font-mono uppercase text-slate-400 mb-2.5">
+            <label className="block text-xs font-mono uppercase text-orange-200/60 mb-2.5">
               3. Select Agent Tone Strategy
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -353,20 +353,20 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
                     disabled={isLoading}
                     className={`flex flex-col text-left p-4 rounded-xl border transition-all cursor-pointer ${
                       isSelected
-                        ? "border-indigo-500 bg-indigo-950/30 shadow-glow"
-                        : "border-white/[0.08] bg-slate-950/40 hover:border-white/20 hover:bg-slate-900/60"
+                        ? "border-[#ff5722] bg-orange-950/40 shadow-glow"
+                        : "border-orange-950/40 bg-[#160602]/60 hover:border-orange-500/30 hover:bg-[#200903]"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <Icon className={`w-4 h-4 ${isSelected ? "text-indigo-400" : "text-slate-400"}`} />
+                        <Icon className={`w-4 h-4 ${isSelected ? "text-[#ff8a1f]" : "text-orange-300/50"}`} />
                         <span className="text-xs font-semibold text-white">{t.label}</span>
                       </div>
                       <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${t.color}`}>
                         {t.badge}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                    <p className="text-[11px] text-orange-200/60 leading-relaxed">
                       {t.desc}
                     </p>
                   </button>
@@ -378,10 +378,10 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
           {/* Persona Selector */}
           <div>
             <div className="flex items-center justify-between mb-2.5">
-              <label className="block text-xs font-mono uppercase text-slate-400">
+              <label className="block text-xs font-mono uppercase text-orange-200/60">
                 4. Executive Ghostwriter Persona
               </label>
-              <span className="text-[11px] font-mono text-indigo-400">
+              <span className="text-[11px] font-mono text-[#ff8a1f]">
                 Custom Brand Voice Guardrails
               </span>
             </div>
@@ -396,18 +396,18 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
                     disabled={isLoading}
                     className={`flex flex-col text-left p-3.5 rounded-xl border transition-all cursor-pointer ${
                       isSelected
-                        ? "border-purple-500 bg-purple-950/30 shadow-glow"
-                        : "border-white/[0.08] bg-slate-950/40 hover:border-white/20 hover:bg-slate-900/60"
+                        ? "border-[#ff5722] bg-orange-950/40 shadow-glow"
+                        : "border-orange-950/40 bg-[#160602]/60 hover:border-orange-500/30 hover:bg-[#200903]"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-1 mb-1">
                       <span className="text-xs font-bold text-white truncate">{p.name}</span>
                     </div>
-                    <span className="text-[10px] font-mono text-purple-300 mb-1">{p.role}</span>
-                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-purple-500/30 bg-purple-950/40 text-purple-300 w-fit mb-2">
+                    <span className="text-[10px] font-mono text-orange-300/80 mb-1">{p.role}</span>
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-orange-500/30 bg-orange-950/40 text-[#ff8a1f] w-fit mb-2">
                       {p.badge}
                     </span>
-                    <p className="text-[11px] text-slate-400 leading-tight">
+                    <p className="text-[11px] text-orange-200/50 leading-tight">
                       {p.desc}
                     </p>
                   </button>
