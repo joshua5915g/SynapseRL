@@ -51,21 +51,39 @@ export function Navbar() {
     { href: "/telemetry", label: "Engine Telemetry", icon: Cpu, desc: "Reward convergence & token velocity" },
   ];
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click or Escape key
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setStudioOpen(false);
       }
     }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setStudioOpen(false);
+        setMobileMenuOpen(false);
+      }
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
 
   const isStudioActive = studioLinks.some((l) => pathname === l.href);
 
   return (
-    <header className="sticky top-0 z-50 w-full pt-3 pb-2 px-4 sm:px-6">
+    <header className="sticky top-0 z-50 w-full pt-3 pb-3 px-4 sm:px-6 bg-[#060911]/80 backdrop-blur-xl border-b border-white/[0.05] transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Brand Logo - Hard Left */}
         <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
