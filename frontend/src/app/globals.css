@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,6 +16,14 @@
     --color-card-border-hover: rgba(99, 102, 241, 0.35);
     --color-muted: #141c30;
     --color-muted-foreground: #94a3b8;
+
+    /* Fluxora-inspired precision design tokens */
+    --hair: rgba(255, 255, 255, 0.12);
+    --hair-soft: rgba(255, 255, 255, 0.06);
+    --ease-out-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+
+    --font-display: 'Inter Tight', system-ui, -apple-system, sans-serif;
+    --font-italic: 'Instrument Serif', Georgia, serif;
   }
 }
 
@@ -22,6 +32,22 @@ body {
   color: var(--foreground);
   overflow-x: hidden;
   min-height: 100vh;
+  font-family: var(--font-inter, 'Inter', system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Editorial serif accent styling */
+.font-editorial {
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.font-display-tight {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
 }
 
 /* Subtle Ambient Background Grid & Radial Lighting */
@@ -34,9 +60,47 @@ body {
 
 .bg-radial-ambient {
   background: 
-    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 100% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 0% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.14) 0%, transparent 50%),
+    radial-gradient(circle at 100% 45%, rgba(6, 182, 212, 0.09) 0%, transparent 42%),
+    radial-gradient(circle at 0% 75%, rgba(168, 85, 247, 0.09) 0%, transparent 40%);
+}
+
+/* Asymmetric Cyber Scrim */
+.hero-scrim-cyber {
+  background:
+    linear-gradient(96deg, rgba(6, 9, 17, 0.95) 0%, rgba(8, 14, 27, 0.72) 36%, rgba(12, 18, 34, 0.25) 58%, rgba(6, 9, 17, 0.05) 80%),
+    linear-gradient(0deg, rgba(6, 9, 17, 0.85) 0%, rgba(6, 9, 17, 0.2) 30%, transparent 55%),
+    linear-gradient(180deg, rgba(6, 9, 17, 0.6) 0%, transparent 25%);
+}
+
+/* Architectural Hairline Frame Rules */
+.hero-rules {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24%;
+  pointer-events: none;
+}
+.hero-rules span {
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.045) 20%, rgba(255, 255, 255, 0.045) 80%, transparent 100%);
+}
+
+/* Precision Glass Depth Cards */
+.stat-precision-card {
+  position: relative;
+  background: rgba(12, 18, 34, 0.68);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  border: 1px solid var(--hair);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s var(--ease-out-fluid);
+}
+.stat-precision-card:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 14px 40px -10px rgba(99, 102, 241, 0.18);
+  transform: translateY(-2px);
 }
 
 /* Glassmorphism Panels */
@@ -45,6 +109,7 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-card-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .glass-panel-hover {
@@ -53,14 +118,56 @@ body {
 
 .glass-panel-hover:hover {
   border-color: var(--color-card-border-hover);
-  box-shadow: 0 0 35px -8px rgba(99, 102, 241, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 35px -8px rgba(99, 102, 241, 0.25);
   transform: translateY(-1px);
+}
+
+/* Floating Capsule Pill Navigation */
+.nav-capsule-glass {
+  background: rgba(12, 18, 34, 0.65);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid var(--hair);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 16px 36px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* Staggered CSS Entrance Animations */
+.animate-rise {
+  animation: rise 0.85s var(--ease-out-fluid) both;
+}
+.delay-1 { animation-delay: 0.06s; }
+.delay-2 { animation-delay: 0.12s; }
+.delay-3 { animation-delay: 0.18s; }
+.delay-4 { animation-delay: 0.24s; }
+.delay-5 { animation-delay: 0.30s; }
+.delay-6 { animation-delay: 0.36s; }
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none !important;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* Keyboard Accessible Focus */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #6366f1, 0 0 0 4px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 2px #6366f1, 0 0 0 4px rgba(99, 102, 241, 0.25);
 }
 
 /* Micro-scrollbars */

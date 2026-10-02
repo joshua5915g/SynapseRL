@@ -30,6 +30,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "'Inter Tight'", "Inter", "sans-serif"],
+        italic: ["var(--font-italic)", "'Instrument Serif'", "Georgia", "serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       boxShadow: {
@@ -37,6 +39,8 @@ const config: Config = {
         "glow-cyan": "0 0 25px -5px rgba(6, 182, 212, 0.4)",
         "glow-emerald": "0 0 25px -5px rgba(16, 185, 129, 0.4)",
         "glow-subtle": "0 0 40px -10px rgba(99, 102, 241, 0.15)",
+        "glass-inner": "inset 0 1px 0 rgba(255, 255, 255, 0.09)",
+        "pill-glow": "0 10px 30px -5px rgba(99, 102, 241, 0.35)",
       },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
