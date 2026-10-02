@@ -158,6 +158,37 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
           <span className="text-indigo-300 font-medium">Domain SME Node</span> and an{" "}
           <span className="text-cyan-400 font-medium">Algorithm Hacker</span>. Continuous offline DPO reward updates.
         </p>
+
+        {/* Hero Proof Row & Precision Stat Cards */}
+        <div className="flex flex-wrap items-center justify-center gap-5 pt-2">
+          {/* Overlapping Gradient Avatar Dots */}
+          <div className="flex items-center gap-3 px-3 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.02]">
+            <div className="flex -space-x-2">
+              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-cyan-400 to-indigo-500 inline-block shadow-sm" />
+              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-purple-500 to-pink-500 inline-block shadow-sm" />
+              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-amber-400 to-rose-500 inline-block shadow-sm" />
+              <span className="w-6 h-6 rounded-full border-2 border-[#060911] bg-gradient-to-tr from-emerald-400 to-cyan-500 inline-block shadow-sm" />
+            </div>
+            <div className="text-left font-mono">
+              <strong className="block text-xs text-white font-semibold leading-tight">1,420+ Pairs Evaluated</strong>
+              <span className="text-[10px] text-slate-400">Human-in-the-Loop Arena</span>
+            </div>
+          </div>
+
+          {/* Micro Precision Stat Cards */}
+          <div className="flex items-center gap-2.5">
+            <div className="stat-precision-card px-3.5 py-1.5 rounded-xl text-left">
+              <span className="absolute top-1.5 right-2 text-[10px] text-white/30 font-mono select-none">*</span>
+              <div className="text-sm font-bold font-display text-white leading-tight">99.2%</div>
+              <div className="text-[9.5px] text-slate-400 font-mono">Cliché Filter</div>
+            </div>
+            <div className="stat-precision-card px-3.5 py-1.5 rounded-xl text-left">
+              <span className="absolute top-1.5 right-2 text-[10px] text-white/30 font-mono select-none">*</span>
+              <div className="text-sm font-bold font-display text-cyan-300 leading-tight">0.038 β</div>
+              <div className="text-[9.5px] text-slate-400 font-mono">KL Stability</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Expandable Architecture Diagram */}
