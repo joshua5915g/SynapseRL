@@ -131,7 +131,87 @@ export default function RLHFArenaPage() {
 
       {/* Dynamic View: Hero Generator vs Side-by-Side Arena */}
       {!generationData ? (
-        <TopicGenerator onGenerate={handleGenerate} isLoading={isLoading} />
+        <div className="relative w-full">
+          {/* Architectural Hairline Frame Rules */}
+          <div className="hero-rules hidden md:flex" aria-hidden="true">
+            <span /><span /><span />
+          </div>
+
+          <div className="relative z-10 flex flex-col xl:flex-row items-start justify-center gap-8 max-w-7xl mx-auto">
+            <div className="flex-1 w-full max-w-4xl mx-auto">
+              <TopicGenerator onGenerate={handleGenerate} isLoading={isLoading} />
+            </div>
+
+            {/* Atmospheric Ghost Telemetry HUD Panel (Wide Viewports >= 1280px) */}
+            <aside
+              className="hidden xl:block w-72 flex-shrink-0 animate-rise delay-4 sticky top-24 pointer-events-none select-none"
+              aria-hidden="true"
+            >
+              <div className="rounded-2xl border border-white/[0.08] bg-[#0c1222]/35 backdrop-blur-md p-5 space-y-5 opacity-45 hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
+                <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="text-[11px] font-mono text-cyan-300 font-semibold uppercase tracking-wider">
+                      Telemetry Stream
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-slate-400">120ms tick</span>
+                </div>
+
+                {/* Micro Bar Gauges */}
+                <div className="flex items-end justify-between gap-3">
+                  <div className="flex items-end gap-1.5 h-16">
+                    {[32, 54, 42, 68, 85, 74, 96].map((h, i) => (
+                      <span
+                        key={i}
+                        style={{ height: `${h}%` }}
+                        className="w-2.5 rounded-t bg-gradient-to-t from-indigo-500/40 to-cyan-400/80 inline-block transition-all duration-500"
+                      />
+                    ))}
+                  </div>
+                  <div className="text-right">
+                    <span className="block text-2xl font-bold font-display text-white tracking-tight leading-none">
+                      +42.6%
+                    </span>
+                    <span className="text-[10px] font-mono text-slate-400">Reward Margin</span>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <h4 className="text-xs font-semibold text-slate-200 font-mono uppercase tracking-wide">
+                    Reward Convergence
+                  </h4>
+                  <p className="text-[11.5px] text-slate-400 leading-relaxed font-sans">
+                    Continuous pairwise ranking over SQLite DPO offline trajectories.
+                  </p>
+                </div>
+
+                {/* Quick Micro Stat Rows */}
+                <div className="space-y-2 pt-2 border-t border-white/[0.06] text-[11px] font-mono">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">KL Divergence:</span>
+                    <span className="text-emerald-400 font-semibold">0.038 β</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Dwell Multiplier:</span>
+                    <span className="text-cyan-400 font-semibold">1.42x</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">TRL Export Cache:</span>
+                    <span className="text-indigo-300 font-semibold">Ready</span>
+                  </div>
+                </div>
+
+                {/* Faint watermark */}
+                <div className="pt-2 text-right">
+                  <span className="text-4xl font-extrabold font-mono tracking-tighter text-white/[0.04]">
+                    SYNAPSE
+                  </span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
       ) : (
         <Arena
           generationData={generationData}
