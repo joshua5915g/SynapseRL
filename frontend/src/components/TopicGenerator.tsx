@@ -131,7 +131,7 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
   return (
     <div className="w-full max-w-4xl mx-auto text-center space-y-8">
       {/* Top Status & Architecture Badge */}
-      <div className="flex flex-wrap items-center justify-center gap-3">
+      <div className="animate-rise delay-1 flex flex-wrap items-center justify-center gap-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-950/40 text-indigo-300 text-xs font-mono uppercase tracking-wider backdrop-blur-md shadow-glow">
           <Cpu className="w-3.5 h-3.5 text-cyan-400" />
           <span>LangGraph Adversarial State Machine</span>
@@ -142,22 +142,21 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
           className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-slate-900/60 hover:bg-slate-900 text-slate-400 hover:text-slate-200 text-xs font-mono transition-colors cursor-pointer"
         >
           <Workflow className="w-3.5 h-3.5 text-indigo-400" />
-          <span>{showGraphDetails ? "Hide Pipeline Diagram" : "View Agent Graph Flow"}</span>
+          <span>{showGraphDetails ? "Hide Pipeline Topology" : "View Agent Graph Flow"}</span>
         </button>
       </div>
 
-      {/* Main Hero Headline */}
-      <div className="space-y-3">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1]">
-          Autonomous B2B{" "}
-          <span className="bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-            RLHF Content Engine
-          </span>
+      {/* Main Hero Headline - Editorial Tech Upgrade */}
+      <div className="animate-rise delay-2 space-y-4">
+        <h1 className="font-display-tight text-4xl sm:text-5xl lg:text-7xl font-semibold text-white tracking-tight leading-[0.98] text-balance">
+          Autonomous Content<br />
+          Engineered for Conviction<br />
+          Not <em className="font-editorial text-indigo-300 font-normal px-1">Hallucinations</em>
         </h1>
-        <p className="text-slate-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-          Synthesize high-conviction thought leadership through an adversarial loop between a{" "}
+        <p className="text-slate-300/80 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-sans">
+          Synthesize high-velocity thought leadership through an adversarial loop between a{" "}
           <span className="text-indigo-300 font-medium">Domain SME Node</span> and an{" "}
-          <span className="text-rose-400 font-medium">Algorithm Hacker</span>. Vote on the winning candidate to update DPO offline reward matrices.
+          <span className="text-cyan-400 font-medium">Algorithm Hacker</span>. Continuous offline DPO reward updates.
         </p>
       </div>
 
@@ -209,7 +208,7 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
       )}
 
       {/* Main Interactive Form Card */}
-      <div className="glass-panel p-6 sm:p-8 rounded-2xl relative shadow-2xl shadow-indigo-950/40 text-left space-y-6">
+      <div className="animate-rise delay-3 glass-panel p-6 sm:p-8 rounded-2xl relative shadow-2xl shadow-indigo-950/40 text-left space-y-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Main Input Field */}
           <div>
@@ -232,18 +231,20 @@ export function TopicGenerator({ onGenerate, isLoading }: TopicGeneratorProps) {
               <button
                 type="submit"
                 disabled={!topic.trim() || isLoading}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 px-8 py-4 font-semibold text-sm sm:text-base text-white shadow-glow transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer flex-shrink-0"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 pl-6 pr-2 py-2 font-semibold text-sm sm:text-base text-white shadow-pill-glow transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer flex-shrink-0 border border-white/10"
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Agents Debating...</span>
+                    <span className="pr-4">Agents Debating...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="w-5 h-5 text-cyan-200" />
-                    <span>Generate A/B Candidates</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <Sparkles className="w-4 h-4 text-cyan-200" />
+                    <span>Generate Candidates</span>
+                    <span className="w-9 h-9 rounded-full bg-white text-[#0c1222] flex items-center justify-center shadow-md">
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
                   </>
                 )}
               </button>
